@@ -14,7 +14,10 @@
         "public/js/helpers/**/*",
         "public/js/ElementCollection.mjs",
         "public/js/Endpoints.mjs",
-        "public/js/Modal.mjs"
+        "public/js/Modal.mjs",
+        "public/js/CreateGymProgram.mjs ",
+        "public/js/UpdateGymProgram.mjs",
+        "public/js/UpdateMember.mjs"
     ],
     "reportDir": "coverage/frontend",
     "check-coverage": true,
