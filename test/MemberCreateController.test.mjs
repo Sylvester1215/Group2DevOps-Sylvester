@@ -28,7 +28,7 @@ describe('Member API', () => {
         it('should return 400 for invalid name format', (done) => {
             chai.request(baseUrl)
                 .post('/api/members/create')
-                .send({ name: '123InvalidName', adminNumber: '2304806I', gymPrograms: ['Test Program'] })
+                .send({ name: '123InvalidName', adminNumber: '2304806I', gymPrograms: ['Active'] })
                 .end((err, res) => {
                     expect(res).to.have.status(400);
                     expect(res.body.message).to.equal('Invalid name. It should contain only alphabetic characters and spaces.');
@@ -39,7 +39,7 @@ describe('Member API', () => {
         it('should return 400 for invalid admin number format', (done) => {
             chai.request(baseUrl)
                 .post('/api/members/create')
-                .send({ name: 'Valid Name', adminNumber: '123ABC', gymPrograms: ['Test Program'] })
+                .send({ name: 'Valid Name', adminNumber: '123ABC', gymPrograms: ['Active'] })
                 .end((err, res) => {
                     expect(res).to.have.status(400);
                     expect(res.body.message).to.equal('Invalid admin number format. It should consist of 7 digits followed by 1 uppercase letter (e.g., 2304806I).');
@@ -57,11 +57,22 @@ describe('Member API', () => {
                     done();
                 });
         });
+        
+        it('should return 400 for inactive gym program', (done) => {            
+            chai.request(baseUrl)
+                .post('/api/members/create')
+                .send({ name: 'Valid Name', adminNumber: '2304806I', gymPrograms: ['Inactive'] })
+                .end((err, res) => {
+                    expect(res).to.have.status(400);
+                    expect(res.body.message).to.equal('Program ( Name: Inactive ) is inactive!');
+                    done();
+                });
+        });
 
         it('should create a new member', (done) => {
             chai.request(baseUrl)
                 .post('/api/members/create')
-                .send({ name: 'Valid Name', adminNumber: '2304806I' })
+                .send({ name: 'Valid Name', adminNumber: '2304806I', gymPrograms: ['Active'] })
                 .end((err, res) => {
                     expect(res).to.have.status(200);
                     expect(res.body.message).to.include('Member ( ID: ');
@@ -70,6 +81,8 @@ describe('Member API', () => {
         });
     });
 });
+
+// Reference code from labsheet
 // const { describe, it } = require('mocha'); 
 // const { expect } = require('chai'); 
 // const { app, server } = require('../index'); 
