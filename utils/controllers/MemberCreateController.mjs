@@ -14,7 +14,7 @@ export const createMemberAsync = async(req, res) =>
 
         if (!name || !name.trim() || !nameRegex.test(name))
         {
-            return res.status(400).json({ message: 'Invalid name. It should contain only alphabetic characters and spaces.' });
+            return res.status(400).json({ message: 'Invalid name. It should contain only alphabetic characters and spaces!' });
         }
 
         const adminNumberRegex = /^\d{7}[A-Z]$/;
