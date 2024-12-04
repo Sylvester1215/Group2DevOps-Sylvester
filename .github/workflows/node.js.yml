@@ -22,3 +22,9 @@ jobs:
         
       - name: Run tests in "tests" folder 
         run: npm run backend-test
+        
+      - name: Instrument the frontend code 
+        run: cp -R dist instrumented & npx nyc instrument dist instrumented 
+        
+      - name: Run the frontend test cases 
+        run: rm -rf .nyc_output & npx nyc --nycrc-path .nycrc-frontend cypress run
