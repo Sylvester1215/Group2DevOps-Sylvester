@@ -27,4 +27,4 @@ jobs:
         run: npm run build-frontend && node npm-scripts/copy-code-to-instrumented-directory.mjs && npx nyc instrument dist instrumented
         
       - name: Run the frontend test cases 
-        run: npm run frontend-instrument && node npm-scripts/remove-nyc-output-directory.mjs && nyc --nycrc-path .nycrc-frontend cypress run
+        run: npm run frontend-instrument && node npm-scripts/remove-nyc-output-directory.mjs && npx nyc --nycrc-path .nycrc-frontend cypress run
