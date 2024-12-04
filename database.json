@@ -1,0 +1,39 @@
+{
+    "members": {
+        "dataType": "Map",
+        "value": [
+            
+        ]
+    },
+    "programs": {
+        "dataType": "Map",
+        "value": [
+            [
+                "7261586276879504384",
+                {
+                    "id": "7261586276879504384",
+                    "name": "inactive",
+                    "focusBodyPart": "upper",
+                    "intensity": "mild",
+                    "difficulty": "beginner",
+                    "targetAudience": "teenagers",
+                    "reps": 1,
+                    "isActive": false
+                }
+            ],
+            [
+                "7262264125890302976",
+                {
+                    "id": "7262264125890302976",
+                    "name": "active",
+                    "focusBodyPart": "upper",
+                    "intensity": "average",
+                    "difficulty": "intermediate",
+                    "targetAudience": "adults",
+                    "reps": 30,
+                    "isActive": true
+                }
+            ]
+        ]
+    }
+}
