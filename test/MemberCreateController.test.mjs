@@ -1,14 +1,19 @@
-import { describe, it, before, after} from 'mocha';
+import { describe, it, before, after, beforeEach, afterEach } from 'mocha';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { createMemberAsync } from '../utils/controllers/MemberCreateController.mjs';
-import { app, server } from '../index.mjs';  
+import sinon from 'sinon';
+import { DB_INSTANCE } from '../utils/database/JSONDatabase.mjs';
+import { app, server } from '../index.mjs';
 
 chai.use(chaiHttp);
-chai.should();  // Enable should assertions
+chai.should();
 let baseUrl;
 
 describe('Member API', () => {
+    let tryGetGymProgramByNameStub;
+    let tryCreateMemberStub;
+    let updateAsyncStub;
+
     before(async () => {
         const { address, port } = await server.address();
         baseUrl = `http://${address === '::' ? 'localhost' : address}:${port}`;
@@ -22,9 +27,19 @@ describe('Member API', () => {
         });
     });
 
-    // Test Suite for creating members
-    describe('POST /create', () => {
+    beforeEach(() => {
+        // Stub database methods
+        tryGetGymProgramByNameStub = sinon.stub(DB_INSTANCE, 'tryGetGymProgramByName');
+        tryCreateMemberStub = sinon.stub(DB_INSTANCE, 'tryCreateMember');
+        updateAsyncStub = sinon.stub(DB_INSTANCE, 'updateAsync');
+    });
 
+    afterEach(() => {
+        // Restore original methods
+        sinon.restore();
+    });
+
+    describe('POST /create', () => {
         it('should return 400 for invalid name format', (done) => {
             chai.request(baseUrl)
                 .post('/api/members/create')
@@ -48,6 +63,8 @@ describe('Member API', () => {
         });
 
         it('should return 404 for non-existent gym programs', (done) => {
+            tryGetGymProgramByNameStub.withArgs('NonExistentProgram').returns(null);
+
             chai.request(baseUrl)
                 .post('/api/members/create')
                 .send({ name: 'Valid Name', adminNumber: '2304806I', gymPrograms: ['NonExistentProgram'] })
@@ -58,7 +75,9 @@ describe('Member API', () => {
                 });
         });
 
-        it('should return 400 for inactive gym program', (done) => {            
+        it('should return 400 for inactive gym program', (done) => {
+            tryGetGymProgramByNameStub.withArgs('Inactive').returns({ isActive: false });
+
             chai.request(baseUrl)
                 .post('/api/members/create')
                 .send({ name: 'Valid Name', adminNumber: '2304806I', gymPrograms: ['Inactive'] })
@@ -70,6 +89,10 @@ describe('Member API', () => {
         });
 
         it('should create a new member', (done) => {
+            tryGetGymProgramByNameStub.withArgs('Active').returns({ isActive: true });
+            tryCreateMemberStub.returns(true);
+            updateAsyncStub.resolves();
+
             chai.request(baseUrl)
                 .post('/api/members/create')
                 .send({ name: 'Valid Name', adminNumber: '2304806I', gymPrograms: ['Active'] })
@@ -81,6 +104,7 @@ describe('Member API', () => {
         });
     });
 });
+
 
 
 // Reference code from labsheet
