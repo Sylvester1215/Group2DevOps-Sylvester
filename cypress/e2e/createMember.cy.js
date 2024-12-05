@@ -10,7 +10,6 @@ describe('Member Create Frontend', () => {
   });
 
   beforeEach(() => {
-    // Reload the page before each test to ensure consistent state
     cy.visit(baseUrl + '/pages/ManageMembers.html');
   });
 
