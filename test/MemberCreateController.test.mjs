@@ -14,10 +14,6 @@ describe('Member API', () => {
     let tryCreateMemberStub;
     let updateAsyncStub;
 
-    let tryGetGymProgramByNameStub;
-    let tryCreateMemberStub;
-    let updateAsyncStub;
-
     before(async () => {
         const { address, port } = await server.address();
         baseUrl = `http://${address === '::' ? 'localhost' : address}:${port}`;
@@ -29,18 +25,6 @@ describe('Member API', () => {
                 resolve();
             });
         });
-    });
-
-    beforeEach(() => {
-        // Stub database methods
-        tryGetGymProgramByNameStub = sinon.stub(DB_INSTANCE, 'tryGetGymProgramByName');
-        tryCreateMemberStub = sinon.stub(DB_INSTANCE, 'tryCreateMember');
-        updateAsyncStub = sinon.stub(DB_INSTANCE, 'updateAsync');
-    });
-
-    afterEach(() => {
-        // Restore original methods
-        sinon.restore();
     });
 
     beforeEach(() => {
@@ -81,8 +65,6 @@ describe('Member API', () => {
         it('should return 404 for non-existent gym programs', (done) => {
             tryGetGymProgramByNameStub.withArgs('NonExistentProgram').returns(null);
 
-            tryGetGymProgramByNameStub.withArgs('NonExistentProgram').returns(null);
-
             chai.request(baseUrl)
                 .post('/api/members/create')
                 .send({ name: 'Valid Name', adminNumber: '2304806I', gymPrograms: ['NonExistentProgram'] })
@@ -92,9 +74,6 @@ describe('Member API', () => {
                     done();
                 });
         });
-
-        it('should return 400 for inactive gym program', (done) => {
-            tryGetGymProgramByNameStub.withArgs('Inactive').returns({ isActive: false });
 
         it('should return 400 for inactive gym program', (done) => {
             tryGetGymProgramByNameStub.withArgs('Inactive').returns({ isActive: false });
@@ -110,10 +89,6 @@ describe('Member API', () => {
         });
 
         it('should create a new member', (done) => {
-            tryGetGymProgramByNameStub.withArgs('Active').returns({ isActive: true });
-            tryCreateMemberStub.returns(true);
-            updateAsyncStub.resolves();
-
             tryGetGymProgramByNameStub.withArgs('Active').returns({ isActive: true });
             tryCreateMemberStub.returns(true);
             updateAsyncStub.resolves();
