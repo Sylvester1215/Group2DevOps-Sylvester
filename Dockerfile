@@ -6,9 +6,9 @@ WORKDIR /usr/src/app
 COPY package*.json ./ 
 # Install app dependencies 
 RUN npm install 
-# Bundle app source 
+# Bundle app source
 COPY . . 
 # Expose the port your app runs on 
-EXPOSE 5050 
+EXPOSE 5050
 # Define the command to run your app 
-CMD [ "node", "index.mjs" ] 
+CMD [ "npm", "run", "dev" ] 

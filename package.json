@@ -4,6 +4,7 @@
   "description": "``` git checkout https://github.com/Group2DevOpsOrg/Group2DevOps.git ```",
   "main": "index.mjs",
   "scripts": {
+    "build": "vite build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "preview-frontend": "vite",
     "build-frontend": "vite build --sourcemap=true --minify false",
