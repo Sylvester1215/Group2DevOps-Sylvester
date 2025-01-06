@@ -6,4 +6,4 @@ services:
     image: sylvester1215/rms-docker-img:latest
     container_name: rms-docker-container-project
     ports:
-      - "5050:5050"
+      - "8000:5050"
