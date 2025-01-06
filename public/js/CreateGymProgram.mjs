@@ -10,7 +10,7 @@ export function closeModal(modal) {
 
 export async function displayPrograms() {
 	try {
-		const response = await fetch("http://localhost:5050/api/gym-programs");
+		const response = await fetch("/api/gym-programs");
 		if (!response.ok) {
 			alert("Failed to fetch programs.");
 			return;
@@ -77,7 +77,7 @@ async function submitForm(event) {
 
 	try {
 		const response = await fetch(
-			"http://localhost:5050/api/gym-programs/create",
+			"/api/gym-programs/create",
 			{
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
