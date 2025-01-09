@@ -1,5 +1,15 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_USERNAME = 'sylvester1215'
+        DOCKER_PASSWORD = 'T0238879g'
+        AZURE_APP_ID = '7f6c399a-c556-46dc-a1d0-1826855f4efd'
+        AZURE_PASSWORD = credentials('61cf3114-cb52-4558-a403-b95ba91e285c')
+        AZURE_TENANT_ID = '25a99bf0-8e72-472a-ae50-adfbdf0df6f1'
+        AZURE_SUBSCRIPTION_ID = 'b3ebfc85-170b-4a0d-add6-986baf343e61'
+    }
+
     stages {
         stage('Install Dependencies') {
             steps {
@@ -30,7 +40,7 @@ pipeline {
             steps {
                 script {
                     // Docker login
-                    sh 'docker login -u sylvester1215 -p T0238879g'
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
 
                     // Build and push Docker images
                     sh 'docker-compose build'
@@ -43,13 +53,13 @@ pipeline {
             steps {
                 script {
                     // Azure CLI login
-                    sh 'az login --service-principal -u "7f6c399a-c556-46dc-a1d0-1826855f4efd" -p "KtT8Q~yhYlWY53lfG2IhH2wCidGfQS5LjAtNwaDW" --tenant "25a99bf0-8e72-472a-ae50-adfbdf0df6f1"'
+                    sh 'az login --service-principal -u $AZURE_APP_ID -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID'
 
                     // Check if AKS exists, if not create it
                     sh 'az aks show --resource-group rmsResourceGroup --name rmsAKSCluster -o json >nul 2>nul || az aks create --resource-group rmsResourceGroup --name rmsAKSCluster --node-count 1 --generate-ssh-keys 2>&1'
 
                     // Get AKS credentials
-                    sh 'az aks get-credentials --resource-group "rmsResourceGroup" --name "rmsAKSCluster" --overwrite-existing --subscription "b3ebfc85-170b-4a0d-add6-986baf343e61"'
+                    sh 'az aks get-credentials --resource-group "rmsResourceGroup" --name "rmsAKSCluster" --overwrite-existing --subscription "$AZURE_SUBSCRIPTION_ID"'
                 }
             }
         }
