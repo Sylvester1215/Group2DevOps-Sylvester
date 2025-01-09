@@ -4,10 +4,10 @@ pipeline {
     environment {
         DOCKER_USERNAME = 'sylvester1215'
         DOCKER_PASSWORD = 'T0238879g'
-        AZURE_APP_ID = '7f6c399a-c556-46dc-a1d0-1826855f4efd'
-        AZURE_PASSWORD = credentials('61cf3114-cb52-4558-a403-b95ba91e285c')
-        AZURE_TENANT_ID = '25a99bf0-8e72-472a-ae50-adfbdf0df6f1'
-        AZURE_SUBSCRIPTION_ID = 'b3ebfc85-170b-4a0d-add6-986baf343e61'
+         AZURE_APP_ID = credentials('61cf3114-cb52-4558-a403-b95ba91e285c')
+    AZURE_PASSWORD = credentials('61cf3114-cb52-4558-a403-b95ba91e285c')
+    AZURE_TENANT_ID = credentials('61cf3114-cb52-4558-a403-b95ba91e285c')
+    AZURE_SUBSCRIPTION_ID = credentials('61cf3114-cb52-4558-a403-b95ba91e285c')
     }
 
     stages {
