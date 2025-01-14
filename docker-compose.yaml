@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile 
-    image: sylvester1215/rms-docker-img:v6
+    image: sylvester1215/rms-docker-img:v4
     container_name: rms-docker-container-project
     ports:
       - "8000:5050"
