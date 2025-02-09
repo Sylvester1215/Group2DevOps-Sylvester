@@ -1,0 +1,27 @@
+# global:
+#   scrape_interval: 15s  # How frequently Prometheus scrapes metrics
+
+# scrape_configs:
+#   - job_name: 'node-app'
+#     static_configs:
+#       - targets: ['build-rms:5050']  # Replace with your service name and port
+# -----------------------------------------------------------------------------------------------
+# global:
+#   scrape_interval: 15s  # How frequently Prometheus scrapes metrics
+
+# scrape_configs:
+#   - job_name: 'node'
+#     static_configs:
+#       - targets: ['localhost:9100']  # Replace with your app's target URL (localhost:9100)
+#   - job_name: 'node-app'
+#     static_configs:
+#       - targets: ['build-rms:5050']  # Replace with the service name and port of your app's metrics endpoint
+
+global:
+  scrape_interval: 5s  # Collect metrics every 5 seconds
+
+scrape_configs:
+  - job_name: "nodejs-app"
+    static_configs:
+      - targets: ["rms-docker-container-project:5050"]
+
